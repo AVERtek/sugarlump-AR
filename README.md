@@ -1,2 +1,2 @@
-# sugarlump-AR
-sugarlump augmented reality
+Mini-Construction-Demo
+Miniature construction storytelling demonstration in AR.
