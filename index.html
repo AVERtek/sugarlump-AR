@@ -158,12 +158,12 @@ a {
 
 </style>
 
- <!-- This style script 166-194 controls custom fonts located in fonts folder --> 
+ <!-- This style script 161-179 controls custom fonts located in fonts folder --> 
 <style>
   @font-face {
     font-family: 'Script MT Bold';
     src: url('fonts/Script MT Bold.woff2') format('woff2');
-    font-weight: normal;
+    font-weight: bold; /* Corrected to 'bold' */
     font-style: normal;
   }
   .custom-text {
@@ -175,6 +175,8 @@ a {
     font-size: 24px; /* Adjust size as needed */
   }
 </style>
+
+<div class="custom-text">This text should be in Script MT Bold!</div>
 
 <style>
   @media (max-width: 768px) {
