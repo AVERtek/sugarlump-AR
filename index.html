@@ -165,7 +165,24 @@ a {
   </style>
  
  <!-- This style script 168-186 controls custom fonts located in fonts folder --> 
-<!--<style>
+
+ <style>
+  @font-face {
+    font-family: 'Gwendolyn';
+    src: url('./fonts/GWENDOLYN-REGULAR.TTF') format('truetype');
+  }
+  .custom-text {
+    font-family: 'Gwendolyn', sans-serif;
+    color: #FFFFFF;
+    position: absolute;
+    top: 20px;
+    left: 20px;
+    font-size: 24px;
+  }
+</style>
+
+ 
+ <!--<style>
   @font-face {
     font-family: 'Factoria Bold';
     src: url('fonts/Factoria-Bold.woff2') format('woff2');
@@ -180,8 +197,8 @@ a {
     left: 20px;
     font-size: 24px; /* Adjust size as needed */
   }
-</style> -->
-
+</style> 
+ 
 <style>
   @font-face {
     font-family: 'Gwendolyn';
