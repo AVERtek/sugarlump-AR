@@ -164,23 +164,31 @@ a {
     }
   </style>
  
- <!-- This style script 168-183 controls custom fonts located in fonts folder --> 
+ <!-- This style script 168-186 controls custom fonts located in fonts folder --> 
 <style>
   @font-face {
     font-family: 'Gwendolyn Regular';
-    src: url('fonts/GWENDOLYN-REGULAR.TTF') format('truetype'); /* Updated path and format */
-    font-weight: bold;
+    src: url('./fonts/GWENDOLYN-REGULAR.TTF') format('truetype');
+    font-weight: normal;
     font-style: normal;
   }
   .custom-text {
     font-family: 'Gwendolyn Regular', sans-serif;
-    color: #FFFFFF; /* White text for contrast */
+    color: #FFFFFF;
     position: absolute;
     top: 20px;
     left: 20px;
-    font-size: 24px; /* Adjust size as needed */
+    font-size: 24px;
+  }
+  #container {
+    position: relative;
   }
 </style>
+<div id="container">
+  <model-viewer src="your-3d-model.glb"></model-viewer>
+  <div class="custom-text">Your Text Here</div>
+</div>
+
 
 <style>
   @media (max-width: 768px) {
