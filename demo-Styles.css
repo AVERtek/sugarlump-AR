@@ -86,7 +86,31 @@ footer {
   background-color:#00000099;
 }
 
+/* Ensure the UI container fits mobile screens */
+.card {
+    width: 100%;
+    max-width: 600px; /* Prevent oversized scaling */
+    margin: 0 auto; /* Center on all devices */
+}
 
+/* Make video fill smaller screens */
+video {
+    width: 100%;
+    height: auto;
+}
+
+/* Adjust AR button for mobile */
+@media screen and (max-width: 768px) {
+    .ar-button {
+        width: 90%; /* Make button wider for touch accessibility */
+        font-size: 24px; /* Increase readability */
+        margin-top: 10px;
+    }
+}
+
+video {
+    object-fit: contain; /* Keeps aspect ratio without cutting off */
+}
 
 
 
