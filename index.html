@@ -227,7 +227,7 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
      </div>
 
 <div class="card" style="position: relative; width: 100%; text-align: center;">
-    <!-- Model Viewer (Now Hidden Behind Video) -->
+    <!-- Model Viewer (Hidden Behind Video) -->
     <model-viewer 
         id="model-viewer"
         src="Models/entire_family_new.glb?sound=Sound/tercek_sweet_neighbor_mtrack.mp3"
@@ -243,11 +243,11 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
         interaction-prompt="none">
     </model-viewer>
 
-    <!-- Centered Video with Play/Pause Overlay -->
-    <div style="position: relative; width: 100%; display: flex; justify-content: center; align-items: center;">
-        <video id="video-overlay" autoplay muted loop style="
-            width: 80%; max-width: 600px; height: auto; 
-            z-index: 2; pointer-events: none;">
+    <!-- Centered Video Overlay -->
+    <div style="position: absolute; top: 0; left: 50%; transform: translateX(-50%);
+        width: 100%; display: flex; justify-content: center; align-items: center; z-index: 2;">
+        <video id="video-overlay" muted style="
+            width: 80%; max-width: 600px; height: auto;">
             <source src="Video/Sugarlump demo_4a.mp4" type="video/mp4">
         </video>
 
@@ -260,15 +260,15 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
         </button>
     </div>
 
-    <!-- AR Activation Button (Placed Further Down) -->
+    <!-- AR Activation Button (Centered Below the Video) -->
     <button style="
         background-color: #ffffff; border-radius: 8px; 
         border: 2px solid #59cbe8; z-index: 4; 
-        position: relative; margin-top: 20px; /* Moves it further down */
+        position: absolute; left: 50%; bottom: -80px; transform: translateX(-50%);
         height: 80px; min-width: 250px; display: flex; 
         align-items: center; justify-content: center; padding: 10px;"
         onclick="launchAR()">
-        
+
         <img src="images/Heart button.png" style="height: 4em; width: auto; margin-right: 5px;" alt="Custom Icon">
         <span style="font-size: 32px; color: #000099; font-family: 'Chalet LondonNineteenEighty Regular', sans-serif;">
             <strong>push here</strong>
@@ -280,13 +280,14 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
 function toggleVideo() {
     const video = document.getElementById('video-overlay');
     const button = document.getElementById('play-pause-button');
-    
+
     if (video.paused) {
         video.play();
-        button.textContent = "⏸"; // Change to pause icon
+        button.style.display = "none"; // Hide play button when video starts
+        video.muted = false; // Enable audio playback
     } else {
         video.pause();
-        button.textContent = "▶"; // Change to play icon
+        button.style.display = "block"; // Show play button again
     }
 }
 
