@@ -242,6 +242,32 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
         ios-src="Models/ENTIRE_FAMILY_NEW.usdz"
         interaction-prompt="none">
     </model-viewer>
+
+  <!-- AR Activation Button -->
+    <button style="
+        z-index: 9; background-color: #ffffff; border-radius: 8px; 
+        border: 2px solid #59cbe8; position: absolute; 
+        top: 2px; left: 50%; transform: translateX(-50%);
+        height: 80px; min-width: 250px; display: flex; 
+        align-items: center; justify-content: center; padding: 10px;"
+        onclick="launchAR()">
+        
+        <img src="images/Heart button.png" style="height: 4em; width: auto; margin-right: 5px;" alt="Custom Icon">
+        <span style="font-size: 32px; color: #000099; font-family: 'Chalet LondonNineteenEighty Regular', sans-serif;">
+            <strong>push here</strong>
+        </span>
+    </button>
+ 
+<script>
+function launchAR() {
+    const modelViewer = document.getElementById('model-viewer');
+    if (modelViewer.canActivateAR) {
+        modelViewer.activateAR();
+    } else {
+        alert("AR is not available on this device.");
+    }
+}
+</script>
 </div>
 
 <!--<div class="card"> 
@@ -283,31 +309,6 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
   </model-viewer>
   </div> 
  
- <!-- AR Activation Button -->
-    <button style="
-        z-index: 9; background-color: #ffffff; border-radius: 8px; 
-        border: 2px solid #59cbe8; position: absolute; 
-        top: 2px; left: 50%; transform: translateX(-50%);
-        height: 80px; min-width: 250px; display: flex; 
-        align-items: center; justify-content: center; padding: 10px;"
-        onclick="launchAR()">
-        
-        <img src="images/Heart button.png" style="height: 4em; width: auto; margin-right: 5px;" alt="Custom Icon">
-        <span style="font-size: 32px; color: #000099; font-family: 'Chalet LondonNineteenEighty Regular', sans-serif;">
-            <strong>push here</strong>
-        </span>
-    </button>
- 
-<script>
-function launchAR() {
-    const modelViewer = document.getElementById('model-viewer');
-    if (modelViewer.canActivateAR) {
-        modelViewer.activateAR();
-    } else {
-        alert("AR is not available on this device.");
-    }
-}
-</script>
  
  <!-- Image or video UI code structure (211-212) -->
  <!--<img alt="Year of the Snake" src="images/YOTS 8c.jpg" class="center" style="width:auto;height:600px"> -->  
