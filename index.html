@@ -262,7 +262,7 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
         </video>
 
         <!-- Play/Pause Button -->
-        <button id="play-pause-button" onclick="toggleVideo()" style="
+        <button id="play-pause-button" style="
             position: absolute; z-index: 4; top: 50%; left: 50%; transform: translate(-50%, -50%);
             background-color: rgba(255, 255, 255, 0.8); border: none; border-radius: 50%;
             padding: 10px 15px; font-size: 24px; font-weight: bold; cursor: pointer;">
@@ -271,39 +271,62 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
     </div>
 </div>
 
+<!-- AR Button (Perfectly Centered Below Video) -->
+<div style="width: 100%; display: flex; justify-content: center; margin-top: 230px;">
+    <button id="ar-button" style="
+        background-color: #ffffff; border-radius: 8px; 
+        border: 2px solid #59cbe8; z-index: 4; 
+        height: 60px; min-width: 250px; display: flex; 
+        align-items: center; justify-content: center; padding: 10px;">
+        <img src="images/Heart button.png" style="height: 4em; width: auto; margin-right: 5px;" alt="Custom Icon">
+        <span style="font-size: 32px; color: #000099; font-family: 'Chalet LondonNineteenEighty Regular', sans-serif;">
+            <strong>push here</strong>
+        </span>
+    </button>
+</div>
+
 <script>
-    // Hide Poster Once Video is Fully Loaded
-    document.getElementById('video-overlay').addEventListener('loadeddata', function() {
-        document.getElementById('poster-overlay').style.display = 'none';
-    });
+document.addEventListener("DOMContentLoaded", function () {
+    const video = document.getElementById('video-overlay');
+    const button = document.getElementById('play-pause-button');
+    const poster = document.getElementById('poster-overlay');
+    const arButton = document.getElementById('ar-button');
+    const modelViewer = document.getElementById('reveal');
 
-    // Toggle Video Play/Pause
+    // Function to toggle video play/pause
     function toggleVideo() {
-        var video = document.getElementById('video-overlay');
-        var button = document.getElementById('play-pause-button');
-
         if (video.paused) {
             video.play();
-            video.muted = false; // Enable audio playback
+            video.muted = false; // Enable audio playback after user interaction
             button.style.display = "none"; // Hide play button when video starts
         } else {
             video.pause();
             button.style.display = "block"; // Show play button when paused
-            button.textContent = "▶"; // Change to play icon
+            button.innerHTML = "▶"; // Reset to play icon
         }
     }
 
-    // Make sure clicking the video toggles play/pause
-    document.getElementById('video-overlay').addEventListener('click', toggleVideo);
+    // Ensure clicking the video toggles play/pause
+    video.addEventListener('click', toggleVideo);
+    button.addEventListener('click', toggleVideo);
 
+    // Hide Poster Once Video is Fully Loaded
+    video.addEventListener('loadeddata', function() {
+        poster.style.display = 'none';
+    });
+
+    // Function to launch AR experience
     function launchAR() {
-        const modelViewer = document.getElementById('model-viewer');
         if (modelViewer.canActivateAR) {
             modelViewer.activateAR();
         } else {
             alert("AR is not available on this device.");
         }
     }
+
+    // Attach AR button listener
+    arButton.addEventListener('click', launchAR);
+});
 </script>
  
 <!-- AR Button (Perfectly Centered Below Video) -->
