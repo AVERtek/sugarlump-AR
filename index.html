@@ -229,7 +229,7 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
 <div class="card" style="position: relative; width: 100%; text-align: center;">
     <!-- Poster Overlay (Ensures Immediate Cover Until Video Loads) -->
     <img id="poster-overlay" src="images/Video Poster_1.jpg" 
-         style="position: absolute; width: 100%; height: 200px; top: 0; left: 0; z-index: 3;">
+         style="position: absolute; width: auto; height: 200px; top: 0; left: 0; z-index: 3;">
 
     <!-- Model Viewer (Centered and Using PNG Poster) -->
     <div style="display: flex; justify-content: center; width: 100%;">
@@ -244,7 +244,7 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
             loading="eager"
             slot="ar-button"
             alt="Sugarlump Demo"
-            style="width: 100%; height: 200px; position: absolute; top: 0; left: 0; z-index: 1;"
+            style="width: auto; height: 200px; position: absolute; top: 0; left: 0; z-index: 1;"
             ios-src="Models/ENTIRE_FAMILY_NEW.usdz"
             interaction-prompt="none">
         </model-viewer>
@@ -253,7 +253,7 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
     <!-- Video Overlay (Ensuring Correct Placement and Fullscreen Width) -->
     <div style="position: absolute; top: 5px; left: 0; width: 100%; height: 200px; 
         display: flex; justify-content: center; align-items: center; z-index: 2;">
-        <video id="video-overlay" muted autoplay style="
+        <video id="video-overlay" muted style="
             width: auto; height: 200px; object-fit: cover; margin: 0;">
             <source src="Video/Sugarlump demo_4a.mp4" type="video/mp4">
         </video>
@@ -273,8 +273,22 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
     document.getElementById('video-overlay').addEventListener('play', function() {
         document.getElementById('poster-overlay').style.display = 'none';
     });
-</script>
 
+    // Toggle Video Play/Pause
+    function toggleVideo() {
+        var video = document.getElementById('video-overlay');
+        var button = document.getElementById('play-pause-button');
+
+        if (video.paused) {
+            video.play();
+            button.innerHTML = "⏸"; // Change to pause icon
+        } else {
+            video.pause();
+            button.innerHTML = "▶"; // Change to play icon
+        }
+    }
+</script>
+ 
 <!-- AR Button (Perfectly Centered Below Video) -->
 <div style="width: 100%; display: flex; justify-content: center; margin-top: 230px;">
     <button style="
