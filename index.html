@@ -227,13 +227,7 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
      </div>
 
 <!-- Model Viewer with Correctly Positioned Video Overlay -->
-<div style="position: relative; width: 100%; max-width: 600px; margin: auto;">
-    <!-- Overlay Video (Covers the Model-Viewer Completely) -->
-    <video id="poster-video" autoplay muted playsinline 
-         style="position: absolute; width: 100%; height: 100%; top: 0; left: 0; z-index: 2;">
-        <source src="videos/YOTS.mp4" type="video/mp4">
-    </video>
-
+<div class="card" style="position: relative; width: 100%; text-align: center;">
     <!-- Model Viewer Component -->
     <model-viewer id="model-viewer"
         src="Models/entire_family_new.glb?sound=Sound/tercek_sweet_neighbor_mtrack.mp3"
@@ -257,7 +251,13 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
     });
 </script>
  
-    <!-- Video Overlay (Ensuring Correct Placement and Fullscreen Width) -->
+ <!-- Overlay Video (Covers the Model-Viewer Completely) -->
+    <video id="poster-video" autoplay muted playsinline 
+         style="position: absolute; width: auto; height: 200px; top: 0; left: 0; z-index: 2;">
+        <source src="Video/Sugarlump demo_4a.mp4" type="video/mp4">
+    </video>
+ 
+ <!-- Video Overlay (Ensuring Correct Placement and Fullscreen Width) -->
     <div style="position: absolute; top: 5px; left: 0; width: 100%; height: 200px; 
         display: flex; justify-content: center; align-items: center; z-index: 2;">
         <video id="video-overlay" muted style="
