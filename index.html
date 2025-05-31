@@ -323,6 +323,34 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
 </div>
 
 <script>
+document.addEventListener("DOMContentLoaded", function () {
+    const video = document.getElementById('video-overlay');
+    const button = document.getElementById('play-pause-button');
+
+    function toggleVideo() {
+        if (video.paused) {
+            video.play();
+            video.muted = false; // Enable audio playback only when playing
+            button.style.display = "none"; // Hide play button when video starts
+        } else {
+            video.pause();
+            button.style.display = "block"; // Show play button when paused
+            button.innerHTML = "▶"; // Change to play icon
+        }
+    }
+
+    // Ensure clicking the video toggles play/pause
+    video.addEventListener('click', toggleVideo);
+    button.addEventListener('click', toggleVideo);
+
+    // Hide Poster Once Video is Fully Loaded
+    video.addEventListener('loadeddata', function() {
+        document.getElementById('poster-overlay').style.display = 'none';
+    });
+});
+</script>
+ 
+<!--<script>
 function toggleVideo() {
     const video = document.getElementById('video-overlay');
     const button = document.getElementById('play-pause-button');
@@ -349,7 +377,7 @@ function launchAR() {
         alert("AR is not available on this device.");
     }
 }
-</script>
+</script> -->
  
 <!--<div class="card"> 
  <model-viewer id="model-viewer" src="Models/entire_family_new.glb?sound=Sound/tercek_sweet_neighbor_mtrack.mp3" shadow-intensity="1" ar ar-modes="scene-viewer webxr quick-look" ar-scale="auto" ar-preferred ar-placement="floor" camera-controls autoplay 
