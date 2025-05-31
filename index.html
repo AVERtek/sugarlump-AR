@@ -241,17 +241,17 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
             loading="lazy"
             poster="images/Video Poster 1.png" <!-- PNG Poster -->
             alt="Sugarlump Demo"
-            style="width: 100%; max-width: 600px; height: 200px; position: relative; z-index: 1;"
+            style="width: 100%; height: 200px; position: absolute; top: 0; left: 0; z-index: 1;"
             ios-src="Models/ENTIRE_FAMILY_NEW.usdz"
             interaction-prompt="none">
         </model-viewer>
     </div>
 
     <!-- Video Overlay (Ensuring Correct Placement and Fullscreen Width) -->
-    <div style="position: absolute; top: 0; left: 0; width: 100%; height: 100%; 
+    <div style="position: absolute; top: 0; left: 0; width: 100%; height: 200px; 
         display: flex; justify-content: center; align-items: center; z-index: 2;">
         <video id="video-overlay" muted style="
-            width: 100%; height: 100%; object-fit: cover; margin: 0;">
+            width: 100%; height: 200px; object-fit: cover; margin: 0;">
             <source src="Video/Sugarlump demo_4a.mp4" type="video/mp4">
         </video>
 
