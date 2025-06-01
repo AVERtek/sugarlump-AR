@@ -1,11 +1,13 @@
 <!DOCTYPE html>
-<html lang="{{ site.lang | default: "en-US" }}">
- 
+<html lang="en">
 <head>
- <meta charset="UTF-8">
- <meta http-equiv="X-UA-Compatible" content="IE=edge">
- <meta name="viewport" content="width=device-width, initial-scale=1">
- <title>sugarlump.love AR</title>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>sugarlump.love AR</title>
+    <link rel="preload" href="https://unpkg.com/@google/model-viewer/dist/model-viewer.min.js" as="script" crossorigin="anonymous">
+    <link rel="preload" href="images/Video Poster_1.jpg" as="image">
+    <script type="module" src="https://unpkg.com/@google/model-viewer/dist/model-viewer.min.js"></script>
+    <script nomodule src="https://unpkg.com/@google/model-viewer/dist/model-viewer-legacy.js"></script>
 
 <!-- Google tag (gtag.js) -->
 <script async src="https://www.googletagmanager.com/gtag/js?id=0-0000000000"></script>
@@ -17,262 +19,124 @@
   gtag('config', '0-0000000000');
 </script>
  
- </head>
- <!-- Loads <model-viewer> for modern browsers: -->
- <script type="module" src="https://unpkg.com/@google/model-viewer/dist/model-viewer.js"></script>
-  
- <script nomodule="" src="https://unpkg.com/@google/model-viewer/dist/model-viewer.min.js"></script>
- <script src="{{ "/assets/js/scale.fix.js" | relative_url }}"></script>
-  <!-- The following libraries and polyfills are recommended to maximize browser support -->  
-  <!-- REQUIRED: Web Components polyfill to support Edge and Firefox < 63 -->
-  <script src="https://unpkg.com/@webcomponents/webcomponentsjs/webcomponents-loader.js"></script>
-
-  <!-- OPTIONAL: Intersection Observer polyfill for better performance in Safari and IE11 -->
-  <script src="https://unpkg.com/intersection-observer/intersection-observer.js"></script>
-
-  <!-- OPTIONAL: Resize Observer polyfill improves resize behavior in non-Chrome browsers -->
-  <script src="https://unpkg.com/resize-observer-polyfill/dist/ResizeObserver.js"></script>
- 
- <script>
-      function Sync(selector, audioSelector) {
-        var modelViewer = document.querySelector(selector);
-        var sound = document.querySelector(audioSelector);
-        var playRequest = document.querySelector("#overlay");
-
-   sound.addEventListener("timeupdate", () => {
-          modelViewer.currentTime = sound.currentTime;
-          console.log("modelViewer time: " + modelViewer.currentTime);
-        });
-
-   sound.addEventListener("pause", () => {
-          modelViewer.pause();
-        });
-
-   sound.addEventListener("play", () => {
-          modelViewer.play();
-
-   playRequest.classList.add("hide");
-        });
-
-   document.addEventListener("visibilitychange", () => {
-          if (document.visibilityState !== "visible") {
-            sound.pause();
-          }
-        });
-var promise = sound.play();
-        if (promise !== undefined) {
-          promise
-            .then(_ => {
-              console.log("Autoplay has worked");
-              playRequest.classList.add("hide");
-            })
-            .catch(error => {
-              // Show a "Play" button so that user can start playback.
-              console.log("Autoplay has not worked");
-
-   // show the modal dialogue to play this
-   playRequest.classList.remove("hide");
-            });
+<style>
+        /* Basic styling for the card and container */
+        body { margin: 0; display: flex; flex-direction: column; align-items: center; justify-content: flex-start; min-height: 100vh; background-color: #f0f0f0; }
+        .card {
+            position: relative;
+            width: 100%; /* Adjust as needed, e.g., max-width: 500px; for larger screens */
+            max-width: 500px; /* Example: constrain width on larger screens */
+            text-align: center;
+            background-color: white;
+            box-shadow: 0 4px 8px rgba(0,0,0,0.1);
+            margin-bottom: 20px; /* Space below the card */
+            overflow: hidden; /* Important for absolute positioning children */
+            /* Ensure fixed height for the container, as children are absolute */
+            height: 200px; /* This matches your model-viewer and video height */
         }
 
-   }  
-      function playNow() {
-        var playRequest = document.querySelector("#overlay");
-        playRequest.classList.add("hide");
+        /* Model Viewer and Video Overlay Base Styles */
+        model-viewer, #video-overlay-container {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%; /* Use 100% to fill parent .card */
+            object-fit: cover; /* Ensures video covers the area without distortion */
+            margin: 0;
+        }
 
-   var sound = document.querySelector("#sound");
-        sound.play();
-      }
+        /* Z-index for layering */
+        model-viewer { z-index: 1; }
+        #video-overlay-container { z-index: 2; display: flex; justify-content: center; align-items: center; } /* Flex for centering video/button */
+        #video-overlay {
+            width: 100%; /* Video takes full width of its container */
+            height: 100%; /* Video takes full height of its container */
+            object-fit: cover; /* Ensure video covers the space */
+            display: none; /* Initially hidden, JS will make it block */
+        }
+        #play-pause-button {
+            position: absolute; /* Relative to #video-overlay-container */
+            z-index: 3; /* Above video */
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            background-color: rgba(255, 255, 255, 0.8);
+            border: none;
+            border-radius: 50%;
+            padding: 10px 15px;
+            font-size: 24px;
+            font-weight: bold;
+            cursor: pointer;
+            display: none; /* Initially hidden */
+        }
 
-   function jumpTo(time) {
-        var sound = document.querySelector("#sound");
-        sound.currentTime = time;
-      }
-
-   </script>
-
-<script>
-/**
-* Function that registers a click on an outbound link in Analytics.
-* This function takes a valid URL string as an argument, and uses that URL string
-* as the event label. Setting the transport method to 'beacon' lets the hit be sent
-* using 'navigator.sendBeacon' in browser that support it.
-*/
-var getOutboundLink = function(url) {
-  gtag('event', 'click', {
-    'event_category': 'outbound',
-    'event_label': url,
-    'transport_type': 'beacon',
-    'event_callback': function(){document.location = url;}
-  });
-}
-</script>
-
-<style> 
- 
-.container {
- column-count: 1;
- column-width: 500px;
- column-gap: 10px;
-}
-  .card {
-  break-inside: avoid;
-  background-color: rgb(255, 255, 153);
-  border: 2px solid rgb(255, 255, 153);
-  padding: 10px;
-  margin: 0 0 1em 0;
-}
-
- .card1 {
-  break-inside: avoid;
-  background-color: #ffff99;
-  border: 2px solid rgb(255, 255, 153);
-  padding: 5px;
-  margin: 0 0 1em 0;
-} 
-
-  .stack-top{
-   z-index: 9;
-}
-.marginauto {
-    display: block;
-    margin: 10px auto;
-    text-align: center;
-  }
-
-.centerImage
-{
- text-align:center;
- display:block;
-}
-
- .center {
-  display: block;
-  margin-left: auto;
-  margin-right: auto;
-  width: 50%;
-}  
-
-a {
- color: #59cbe8;
-}
-
-</style>
-<!-- This style script 160-193 controls progress bar color -->
- <style>
-    model-viewer {
-      --progress-bar-color: #59cbe8; /* Change 'red' to your desired color */
-    }
-  </style>
- 
- <!-- This style script 168-181 controls custom fonts located in fonts folder --> 
-  <style>
-  @font-face {
-    font-family: 'Chalet LondonNineteenEighty Regular';
-    src: url('fonts/Chalet LondonNineteenEighty Regular.otf') format('opentype'); /* lowercase 'opentype' for consistency */
-  }
-
-  @font-face {
-    font-family: 'DaisyByhapppyal-Regular';
-    src: url('fonts/DaisyByhapppyal-Regular.otf') format('opentype'); /* lowercase 'opentype' for consistency */
-  }
-  
-  .custom-text {
-    font-family: 'Chalet LondonNineteenEighty Regular', sans-serif;
-    color: #FFFFFF; /* White text for contrast */
-    position: absolute;
-    top: 20px;
-    left: 20px;
-    font-size: 48px; /* Adjust size as needed */
-  }
-
-  .daisy-text {
-    font-family: 'DaisyByhapppyal-Regular', sans-serif;
-    color: #000099; /* Gold text for contrast */
-    font-size: 60 px; /* Adjust size as needed */
-  }
-</style>
- 
-<style>
-  @media (max-width: auto) {
-    .custom-text {
-      font-size: 18px; /* Adjust font size for smaller screens */
-      top: 10px; /* Adjust positioning */
-      left: 10px;
-    }
-    model-viewer {
-      height: 300px; /* Adjust model size for mobile */
-    }
-  }
-</style>
- 
-<body bgcolor= #ffff99>
-  
+        /* AR Button Styling */
+        #ar-button-container {
+            width: 100%;
+            display: flex;
+            justify-content: center;
+            margin-top: 230px; /* Adjust based on .card height + desired gap */
+        }
+        #ar-button {
+            background-color: #ffffff;
+            border-radius: 8px;
+            border: 2px solid #59cbe8;
+            height: 60px;
+            min-width: 250px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding: 10px;
+            cursor: pointer;
+            text-decoration: none; /* If you make it an <a> tag */
+        }
+        #ar-button img {
+            height: 4em;
+            width: auto;
+            margin-right: 5px;
+        }
+        #ar-button span {
+            font-size: 32px;
+            color: #000099;
+            font-family: 'Chalet LondonNineteenEighty Regular', sans-serif; /* Ensure this font is loaded or a fallback is provided */
+            white-space: nowrap; /* Prevent text wrapping */
+        }
+    </style>
+</head>
 <body>
 
- <!-- Google Tag Manager (noscript) -->
-<noscript><iframe src="https://www.googletagmanager.com/ns.html?id=GTM-0000000"
-height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
-<!-- End Google Tag Manager (noscript) -->
- 
-<!--<h1>The column-count Property</h1> -->
-<!--<p>The column-count property defines the number of columns an element is divided into:</p> -->
-
-<div class="container">
-    <div class="card">
-     <img src="images/erin_video_scenes-32.png" alt="Logo" style="width: 350px; height: auto; display: block; margin: auto;">
-     <!--<img class="marginauto" src="images/erin_video_scenes-32.png" alt="Logo" style="width: 350px; height: auto"> -->
-     <!--<h1 style="text-align: center;" markdown="1"><b style="color:#000099;"><p style="font-family:DaisyByhapppyal-Regular"> KINDNESS PROJECT</p></h1></b> --> 
-     <!--<h2 style="text-align: center;" markdown="1"><b style="color:#ff69b4;"><p style="font-family:Chalet LondonNineteenEighty Regular"> "a little kindness is never really little"</p></h2></b> -->
-     </div>
-
-<div class="card" style="position: relative; width: 100%; text-align: center;">
-
-    <div style="display: flex; justify-content: center; width: 100%;">
-        <model-viewer
-            id="reveal"
-            src="Models/entire_family_new.glb?sound=Sound/tercek_sweet_neighbor_mtrack.mp3"
-            shadow-intensity="1"
-            ar ar-modes="scene-viewer webxr quick-look"
-            ar-scale="auto" ar-preferred ar-placement="floor"
-            camera-controls
-            camera-orbit="0deg 90deg 100%"
-            loading="lazy" slot="ar-button"
-            poster="images/Video Poster_1.jpg"
-            alt="Sugarlump Demo"
-            style="width: 100%; height: 200px; position: absolute; top: 0; left: 0; z-index: 1;"
-            ios-src="Models/ENTIRE_FAMILY_NEW.usdz"
-            interaction-prompt="none">
+<div class="card">
+    <model-viewer
+        id="reveal"
+        src="Models/entire_family_sync.glb?sound=Sound/tercek_sweet_neighbor_mtrack2.mp3"
+        shadow-intensity="1"
+        ar ar-modes="scene-viewer webxr quick-look"
+        ar-scale="auto" ar-preferred ar-placement="floor"
+        camera-controls
+        camera-orbit="0deg 90deg 100%"
+        loading="lazy" poster="images/Video Poster_1.jpg"
+        alt="Sugarlump Demo"
+        ios-src="Models/ENTIRE_FAMILY_SYNC.usdz"
+        interaction-prompt="none"
+        autoplay="false"
+        reveal="auto"
+    >
         </model-viewer>
-    </div>
 
-    <div style="position: absolute; top: 5px; left: 0; width: 100%; height: 200px;
-        display: flex; justify-content: center; align-items: center; z-index: 2;">
+    <div id="video-overlay-container">
         <video id="video-overlay"
-               autoplay muted playsinline preload="auto" style="width: auto; height: 200px; object-fit: cover; margin: 0; display: none;">
-                <source src="Video/Sugarlump demo_4a.mp4" type="video/mp4">
+               autoplay muted playsinline preload="auto" loop src="Video/Sugarlump demo_4a.mp4" type="video/mp4">
+            Your browser does not support the video tag.
         </video>
-
-        <button id="play-pause-button" style="
-                position: absolute; z-index: 3; top: 50%; left: 50%; transform: translate(-50%, -50%);
-                background-color: rgba(255, 255, 255, 0.8); border: none; border-radius: 50%;
-                padding: 10px 15px; font-size: 24px; font-weight: bold; cursor: pointer; display: none;">
-                ▶
-        </button>
+        <button id="play-pause-button"> ▶ </button>
     </div>
 </div>
 
-<div style="width: 100%; display: flex;
-justify-content: center; margin-top: 230px;">
-    <button id="ar-button" style="
-        background-color: #ffffff; border-radius: 8px;
-        border: 2px solid #59cbe8; z-index: 4;
-        height: 60px; min-width: 250px; display: flex;
-        align-items: center; justify-content: center; padding: 10px;">
-        <img src="images/Heart button.png" style="height: 4em; width: auto; margin-right: 5px;" alt="Custom Icon">
-        <span style="font-size: 32px; color: #000099; font-family: 'Chalet LondonNineteenEighty Regular', sans-serif;">
-            <strong>push here</strong>
-        </span>
+<div id="ar-button-container">
+    <button id="ar-button">
+        <img src="images/Heart button.png" alt="Custom Icon">
+        <span><strong>push here</strong></span>
     </button>
 </div>
 
@@ -299,43 +163,38 @@ document.addEventListener("DOMContentLoaded", function () {
         }
     }
 
-    // Event listener for when the video has enough data to play the first frame
+    // Listener for when the video has enough data to play the first frame
+    // This makes the video visible as soon as possible.
     video.addEventListener('loadeddata', function() {
-        // Make the video visible
         video.style.display = 'block';
 
-        // If the video is already playing (due to autoplay/muted/playsinline), hide the button
+        // Initial state of play/pause button based on autoplay
         if (!video.paused && !video.ended) {
             playPauseButton.style.display = "none";
         } else {
-            // If autoplay was blocked or hasn't started, ensure play button is visible
             playPauseButton.style.display = "block";
             playPauseButton.innerHTML = "▶";
         }
     });
 
-    // Ensure clicking the video itself also toggles play/pause
+    // Handle user interaction with video and button
     video.addEventListener('click', toggleVideo);
     playPauseButton.addEventListener('click', toggleVideo);
 
-    // Hide play button when video starts playing (e.g., after user click or successful autoplay)
+    // Update button state on video play/pause events
     video.addEventListener('play', () => {
         playPauseButton.style.display = "none";
     });
-
-    // Show play button when video pauses
     video.addEventListener('pause', () => {
         playPauseButton.style.display = "block";
     });
 
-    // Function to launch AR experience
+    // --- AR Functionality ---
     function launchAR() {
-        // Pause video when entering AR
+        // Pause video and hide controls when entering AR
         if (!video.paused) {
             video.pause();
         }
-
-        // Hide video and play button immediately when AR is triggered
         video.style.display = 'none';
         playPauseButton.style.display = 'none';
 
@@ -343,34 +202,32 @@ document.addEventListener("DOMContentLoaded", function () {
             modelViewer.activateAR();
         } else {
             alert("AR is not available on this device.");
-            // If AR is not available, but the AR button was clicked,
-            // re-show the video and play button (video will be paused).
+            // If AR fails, bring back video and its button (paused)
             video.style.display = 'block';
             playPauseButton.style.display = 'block';
         }
     }
 
-    // Attach AR button listener
     arButton.addEventListener('click', launchAR);
 
-    // IMPORTANT: Add listener for when model-viewer enters/exits AR
+    // Listener for when model-viewer enters/exits AR
     modelViewer.addEventListener('ar-status', (event) => {
         if (event.detail.status === 'not-presenting') {
             // User exited AR. Re-display video and button.
             video.style.display = 'block';
-            if (video.paused) {
+            if (video.paused) { // Only show play button if video is currently paused
                  playPauseButton.style.display = 'block';
             }
+            // Optionally, resume model-viewer animation if video is paused
+            modelViewer.play();
         } else if (event.detail.status === 'ar' || event.detail.status === 'scene-viewer') {
-            // User entered AR. Hide video and play button.
-            video.style.display = 'none';
-            playPauseButton.style.display = 'none';
+            // User entered AR. Video and button are already hidden from launchAR.
+            // No further action needed here for display properties.
         }
     });
 
-    // Initial check for video state in case it autoplays very quickly before loadeddata
-    // This ensures the button state is correct on very fast initial loads.
-    // This is redundant if loadeddata fires reliably and quickly, but acts as a fallback.
+    // Fallback if video is already loaded/playing before DOMContentLoaded
+    // (e.g., from cache or very fast network)
     if (video.readyState >= 2) { // HTMLMediaElement.HAVE_CURRENT_DATA
         video.style.display = 'block';
         if (!video.paused && !video.ended) {
@@ -380,13 +237,20 @@ document.addEventListener("DOMContentLoaded", function () {
             playPauseButton.innerHTML = "▶";
         }
     } else {
-        // If video isn't even ready for first frame yet, ensure it's hidden and play button is shown by default
-        video.style.display = 'none'; // Ensure it's hidden initially, loadeddata will reveal
-        playPauseButton.style.display = 'block'; // Show play button as it awaits video
+        // Ensure video is initially hidden if not ready, play button shown
+        video.style.display = 'none';
+        playPauseButton.style.display = 'block';
         playPauseButton.innerHTML = "▶";
     }
+
+    // Ensure model-viewer's poster is visible while it loads
+    // You could also add a custom loading spinner if 'poster' isn't enough
+    // modelViewer.addEventListener('load', () => {
+    //     // Model is loaded, optionally hide loading spinner if you added one
+    // });
 });
 </script>
+
 
   <div class="card"> 
      <h1 style="text-align: center;" markdown="1"><p style="font-family:Chalet LondonNineteenEighty Regular; font-weight: bold; color: #000099;"> The joy of sharing kindness with friends + neighbors = sugarlump.love</p></h1></b>
