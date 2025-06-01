@@ -1,13 +1,11 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="{{ site.lang | default: "en-US" }}">
+ 
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>sugarlump.love AR</title>
-    <link rel="preload" href="https://unpkg.com/@google/model-viewer/dist/model-viewer.min.js" as="script" crossorigin="anonymous">
-    <link rel="preload" href="images/Video Poster_1.jpg" as="image">
-    <script type="module" src="https://unpkg.com/@google/model-viewer/dist/model-viewer.min.js"></script>
-    <script nomodule src="https://unpkg.com/@google/model-viewer/dist/model-viewer-legacy.js"></script>
+ <meta charset="UTF-8">
+ <meta http-equiv="X-UA-Compatible" content="IE=edge">
+ <meta name="viewport" content="width=device-width, initial-scale=1">
+ <title>sugarlump.love AR</title>
 
 <!-- Google tag (gtag.js) -->
 <script async src="https://www.googletagmanager.com/gtag/js?id=0-0000000000"></script>
@@ -229,23 +227,26 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
      </div>
 
 <div class="card" style="position: relative; width: 100%; text-align: center;">
-    <model-viewer
-        id="reveal"
-        src="Models/entire_family_sync.glb?sound=Sound/tercek_sweet_neighbor_mtrack2.mp3"
-        shadow-intensity="1"
-        ar ar-modes="scene-viewer webxr quick-look"
-        ar-scale="auto" ar-preferred ar-placement="floor"
-        camera-controls
-        camera-orbit="0deg 90deg 100%"
-        loading="lazy" poster="images/Video Poster_1.jpg"
-        alt="Sugarlump Demo"
-        ios-src="Models/ENTIRE_FAMILY_SYNC.usdz"
-        interaction-prompt="none"
-        autoplay="false"
-        reveal="auto"
-    </model-viewer>
-   </div> 
-          <div style="position: absolute; top: 5px; left: 0; width: 100%; height: 200px;
+
+    <div style="display: flex; justify-content: center; width: 100%;">
+        <model-viewer
+            id="reveal"
+            src="Models/entire_family_sync.glb?sound=Sound/tercek_sweet_neighbor_mtrack2.mp3"
+            shadow-intensity="1"
+            ar ar-modes="scene-viewer webxr quick-look"
+            ar-scale="auto" ar-preferred ar-placement="floor"
+            camera-controls
+            camera-orbit="0deg 90deg 100%"
+            loading="lazy" slot="ar-button"
+            poster="images/Video Poster_1.jpg"
+            alt="Sugarlump Demo"
+            style="width: 100%; height: 200px; position: absolute; top: 0; left: 0; z-index: 1;"
+            ios-src="Models/ENTIRE_FAMILY_SYNC.usdz"
+            interaction-prompt="none">
+        </model-viewer>
+    </div>
+
+    <div style="position: absolute; top: 5px; left: 0; width: 100%; height: 200px;
         display: flex; justify-content: center; align-items: center; z-index: 2;">
         <video id="video-overlay"
                autoplay muted playsinline preload="auto" style="width: auto; height: 200px; object-fit: cover; margin: 0; display: none;">
