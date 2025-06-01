@@ -232,38 +232,26 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
     <div style="display: flex; justify-content: center; width: 100%;">
         <model-viewer 
             id="reveal"
-            src="Models/entire_family_size.glb?sound=Sound/tercek_sweet_neighbor_mtrack2.mp3"
+            src="Models/entire_family_new.glb?sound=Sound/tercek_sweet_neighbor_mtrack.mp3"
             shadow-intensity="1"
             ar ar-modes="scene-viewer webxr quick-look"
             ar-scale="auto" ar-preferred ar-placement="floor"
-            camera-controls autoplay
+            camera-controls 
             camera-orbit="0deg 90deg 100%"
             loading="eager"
             slot="ar-button"
             poster="images/Video Poster_1.jpg"
             alt="Sugarlump Demo"
             style="width: 100%; height: 200px; position: absolute; top: 0; left: 0; z-index: 1;"
-            ios-src="Models/ENTIRE_FAMILY_SIZE.usdz"
+            ios-src="Models/ENTIRE_FAMILY_NEW.usdz"
             interaction-prompt="none">
         </model-viewer>
     </div>
 
     <!-- Video Overlay (Ensuring Correct Placement and Fullscreen Width) -->
-    <div style="position: absolute; top: 5px; left: 0; width: 100%; height: 200px; 
-        display: flex; justify-content: center; align-items: center; z-index: 2;">
-        <video id="video-overlay" muted style="
-            width: auto; height: 200px; object-fit: cover; margin: 0;">
-            <source src="Video/Sugarlump demo_4a.mp4" type="video/mp4">
-        </video>
-
+<div style="position: absolute; top: 5px; left: 0; width: 100%; height: 200px; display: flex; justify-content: center; align-items: center; z-index: 2;"> <video id="video-overlay" muted style=" width: auto; height: 200px; object-fit: cover; margin: 0; display: none;"> <source src="Video/Sugarlump demo_4a.mp4" type="video/mp4"> </video>
         <!-- Play/Pause Button -->
-        <button id="play-pause-button" onclick="toggleVideo()" style="
-            position: absolute; z-index: 3; top: 50%; left: 50%; transform: translate(-50%, -50%);
-            background-color: rgba(255, 255, 255, 0.8); border: none; border-radius: 50%;
-            padding: 10px 15px; font-size: 24px; font-weight: bold; cursor: pointer;">
-            ▶
-        </button>
-    </div>
+        <button id="play-pause-button" style=" /* REMOVED onclick here, JS handles it */ position: absolute; z-index: 3; top: 50%; left: 50%; transform: translate(-50%, -50%); background-color: rgba(255, 255, 255, 0.8); border: none; border-radius: 50%; padding: 10px 15px; font-size: 24px; font-weight: bold; cursor: pointer; display: none;"> ▶ </button> </div>
 </div>
 
 <!-- AR Button (Perfectly Centered Below Video) -->
@@ -283,31 +271,43 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
 <script>
 document.addEventListener("DOMContentLoaded", function () {
     const video = document.getElementById('video-overlay');
-    const button = document.getElementById('play-pause-button');
-    const poster = document.getElementById('poster-overlay');
+    const playPauseButton = document.getElementById('play-pause-button'); // Corrected typo here!
     const arButton = document.getElementById('ar-button');
     const modelViewer = document.getElementById('reveal');
 
     // Function to toggle video play/pause
     function toggleVideo() {
-        if (video.paused) {
+        if (video.paused || video.ended) {
             video.play();
             video.muted = false; // Enable audio playback after user interaction
-            button.style.display = "none"; // Hide play button when video starts
+            playPauseButton.innerHTML = "❚❚"; // Change to pause icon
+            playPauseButton.style.display = "none"; // Hide button once playing
         } else {
             video.pause();
-            button.style.display = "block"; // Show play button when paused
-            button.innerHTML = "▶"; // Reset to play icon
+            playPauseButton.innerHTML = "▶"; // Change to play icon
+            playPauseButton.style.display = "block"; // Show button when paused
         }
     }
 
-    // Ensure clicking the video toggles play/pause
-    video.addEventListener('click', toggleVideo);
-    button.addEventListener('click', toggleVideo);
+    // Add event listener for video loading completion
+    // This will make the video and play button visible once the video is ready to play
+    video.addEventListener('canplaythrough', function() {
+        video.style.display = 'block';
+        playPauseButton.style.display = 'block';
+    });
 
-    // Hide Poster Once Video is Fully Loaded
-    video.addEventListener('loadeddata', function() {
-        poster.style.display = 'none';
+    // Ensure clicking the video itself also toggles play/pause
+    video.addEventListener('click', toggleVideo);
+    playPauseButton.addEventListener('click', toggleVideo);
+
+    // Hide play button when video starts playing (e.g., after user click)
+    video.addEventListener('play', () => {
+        playPauseButton.style.display = "none";
+    });
+
+    // Show play button when video pauses
+    video.addEventListener('pause', () => {
+        playPauseButton.style.display = "block";
     });
 
     // Function to launch AR experience
@@ -321,6 +321,14 @@ document.addEventListener("DOMContentLoaded", function () {
 
     // Attach AR button listener
     arButton.addEventListener('click', launchAR);
+
+    // The commented-out section for modelViewer display is optional,
+    // only uncomment if you want the model to also be initially hidden
+    // and then revealed after it loads (e.g., if it's very large).
+    // modelViewer.style.display = 'none';
+    // modelViewer.addEventListener('load', () => {
+    //     modelViewer.style.display = 'block';
+    // });
 });
 </script>
 
