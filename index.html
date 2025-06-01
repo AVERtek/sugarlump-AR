@@ -237,19 +237,19 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
             ar-scale="auto" ar-preferred ar-placement="floor"
             camera-controls
             camera-orbit="0deg 90deg 100%"
-            loading="eager"
-            slot="ar-button"
+            loading="lazy" slot="ar-button"
             poster="images/Video Poster_1.jpg"
             alt="Sugarlump Demo"
             style="width: 100%; height: 200px; position: absolute; top: 0; left: 0; z-index: 1;"
             ios-src="Models/ENTIRE_FAMILY_NEW.usdz"
-            interaction-prompt="none"> </model-viewer>
+            interaction-prompt="none">
+        </model-viewer>
     </div>
 
     <div style="position: absolute; top: 5px; left: 0; width: 100%; height: 200px;
         display: flex; justify-content: center; align-items: center; z-index: 2;">
-        <video id="video-overlay" muted style="
-                width: auto; height: 200px; object-fit: cover; margin: 0; display: none;">
+        <video id="video-overlay"
+               autoplay muted playsinline preload="auto" style="width: auto; height: 200px; object-fit: cover; margin: 0; display: none;">
                 <source src="Video/Sugarlump demo_4a.mp4" type="video/mp4">
         </video>
 
@@ -283,10 +283,6 @@ document.addEventListener("DOMContentLoaded", function () {
     const arButton = document.getElementById('ar-button');
     const modelViewer = document.getElementById('reveal');
 
-    // Ensure model-viewer is visible from the start.
-    // It's the base layer, and the video will go over it.
-    // modelViewer.style.display = 'block'; // No need for this if it's not set to 'none' in CSS/HTML initially.
-
     // Function to toggle video play/pause
     function toggleVideo() {
         if (video.paused || video.ended) {
@@ -294,27 +290,35 @@ document.addEventListener("DOMContentLoaded", function () {
             video.muted = false; // Enable audio playback after user interaction
             playPauseButton.innerHTML = "❚❚"; // Change to pause icon
             playPauseButton.style.display = "none"; // Hide button once playing
-            modelViewer.pause(); // <--- NEW: Pause model-viewer animation when video plays
+            modelViewer.pause(); // Pause model-viewer animation when video plays
         } else {
             video.pause();
             playPauseButton.innerHTML = "▶"; // Change to play icon
             playPauseButton.style.display = "block"; // Show button when paused
-            modelViewer.play(); // <--- NEW: Play model-viewer animation when video pauses
+            modelViewer.play(); // Play model-viewer animation when video pauses
         }
     }
 
-    // Add event listener for video loading completion
-    video.addEventListener('canplaythrough', function() {
-        // Video is ready to play. Show it and the play button.
+    // Event listener for when the video has enough data to play the first frame
+    video.addEventListener('loadeddata', function() {
+        // Make the video visible
         video.style.display = 'block';
-        playPauseButton.style.display = 'block';
+
+        // If the video is already playing (due to autoplay/muted/playsinline), hide the button
+        if (!video.paused && !video.ended) {
+            playPauseButton.style.display = "none";
+        } else {
+            // If autoplay was blocked or hasn't started, ensure play button is visible
+            playPauseButton.style.display = "block";
+            playPauseButton.innerHTML = "▶";
+        }
     });
 
     // Ensure clicking the video itself also toggles play/pause
     video.addEventListener('click', toggleVideo);
     playPauseButton.addEventListener('click', toggleVideo);
 
-    // Hide play button when video starts playing (e.g., after user click)
+    // Hide play button when video starts playing (e.g., after user click or successful autoplay)
     video.addEventListener('play', () => {
         playPauseButton.style.display = "none";
     });
@@ -324,27 +328,25 @@ document.addEventListener("DOMContentLoaded", function () {
         playPauseButton.style.display = "block";
     });
 
-    // Handle initial state: if video isn't ready, the play button is visible.
-    // If the video is already visible due to cached load, hide the button.
-    video.addEventListener('loadeddata', () => {
-        if (!video.paused && !video.ended) {
-            playPauseButton.style.display = "none";
-        }
-    });
-
     // Function to launch AR experience
     function launchAR() {
-        // When AR is activated, the model-viewer will take over.
-        // It's good practice to pause the video if it's playing.
+        // Pause video when entering AR
         if (!video.paused) {
             video.pause();
-            playPauseButton.style.display = "block"; // Show play button when leaving AR
         }
+
+        // Hide video and play button immediately when AR is triggered
+        video.style.display = 'none';
+        playPauseButton.style.display = 'none';
 
         if (modelViewer.canActivateAR) {
             modelViewer.activateAR();
         } else {
             alert("AR is not available on this device.");
+            // If AR is not available, but the AR button was clicked,
+            // re-show the video and play button (video will be paused).
+            video.style.display = 'block';
+            playPauseButton.style.display = 'block';
         }
     }
 
@@ -352,20 +354,37 @@ document.addEventListener("DOMContentLoaded", function () {
     arButton.addEventListener('click', launchAR);
 
     // IMPORTANT: Add listener for when model-viewer enters/exits AR
-    // This allows you to manage other elements visibility based on AR state.
     modelViewer.addEventListener('ar-status', (event) => {
         if (event.detail.status === 'not-presenting') {
-            // User exited AR. Make sure video and button are ready to be re-displayed.
+            // User exited AR. Re-display video and button.
+            video.style.display = 'block';
             if (video.paused) {
-                 video.style.display = 'block';
                  playPauseButton.style.display = 'block';
             }
         } else if (event.detail.status === 'ar' || event.detail.status === 'scene-viewer') {
-            // User entered AR. Hide video and play button as model-viewer takes over.
+            // User entered AR. Hide video and play button.
             video.style.display = 'none';
             playPauseButton.style.display = 'none';
         }
     });
+
+    // Initial check for video state in case it autoplays very quickly before loadeddata
+    // This ensures the button state is correct on very fast initial loads.
+    // This is redundant if loadeddata fires reliably and quickly, but acts as a fallback.
+    if (video.readyState >= 2) { // HTMLMediaElement.HAVE_CURRENT_DATA
+        video.style.display = 'block';
+        if (!video.paused && !video.ended) {
+            playPauseButton.style.display = 'none';
+        } else {
+            playPauseButton.style.display = 'block';
+            playPauseButton.innerHTML = "▶";
+        }
+    } else {
+        // If video isn't even ready for first frame yet, ensure it's hidden and play button is shown by default
+        video.style.display = 'none'; // Ensure it's hidden initially, loadeddata will reveal
+        playPauseButton.style.display = 'block'; // Show play button as it awaits video
+        playPauseButton.innerHTML = "▶";
+    }
 });
 </script>
 
