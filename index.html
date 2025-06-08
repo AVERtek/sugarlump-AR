@@ -228,6 +228,7 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
 
 <div class="card" style="position: relative; width: 100%; text-align: center;">
 
+    <!-- Model Viewer -->
     <div style="display: flex; justify-content: center; width: 100%;">
         <model-viewer
             id="reveal"
@@ -240,27 +241,44 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
             loading="lazy"
             poster="images/Video Poster_1.jpg"
             alt="Sugarlump Demo"
-            style="width: 100%; height: 200px; position: absolute; top: 0; left: 0; z-index: 1;"
+            style="width: 100%; height: auto; position: relative; z-index: 1;"
             ios-src="Models/GIRL_converted.usdz"
             interaction-prompt="none">
         </model-viewer>
     </div>
 
-    <div style="position: absolute; top: 5px; left: 0; width: 100%; height: 350px;
-        display: flex; justify-content: center; align-items: center; z-index: 2;">
+    <!-- Video Overlay -->
+    <div id="video-container" 
+        style="position: absolute; top: 0; left: 0; width: 100vw; height: 100vh;
+               display: flex; justify-content: center; align-items: center; z-index: 2;">
+        
         <video id="video-overlay"
-                style="width: 350px; height: 350px; object-fit: cover; margin: 0; display: none;">
-                <source src="Video/Sugarlump Intro v3.mp4" type="video/mp4">
+               style="width: 90vw; height: auto; object-fit: contain;">
+            <source src="Video/Sugarlump Intro v3.mp4" type="video/mp4">
         </video>
 
         <button id="play-pause-button" style="
-                position: absolute; z-index: 3; top: 50%; left: 50%; transform: translate(-50%, -50%);
-                background-color: rgba(255, 255, 255, 0.8); border: none; border-radius: 50%;
-                padding: 10px 15px; font-size: 24px; font-weight: bold; cursor: pointer; display: none;">
-                ▶
+            position: absolute; z-index: 3; top: 50%; left: 50%; transform: translate(-50%, -50%);
+            background-color: rgba(255, 255, 255, 0.8); border: none; border-radius: 50%;
+            padding: 10px 15px; font-size: 24px; font-weight: bold; cursor: pointer;">
+            ▶
         </button>
     </div>
 </div>
+
+<!-- Hide AR Button -->
+<style>
+    model-viewer::part(ar-button) {
+        display: none !important;
+    }
+</style>
+
+<!-- Show Video on Load -->
+<script>
+    document.addEventListener("DOMContentLoaded", function() {
+        document.getElementById("video-overlay").style.display = "block";
+    });
+</script>
 
 <div style="width: 100%; display: flex;
 justify-content: center; margin-top: 350px;">
