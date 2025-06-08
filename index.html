@@ -1,13 +1,12 @@
 <!DOCTYPE html>
 <html lang="{{ site.lang | default: "en-US" }}">
- 
+
 <head>
  <meta charset="UTF-8">
  <meta http-equiv="X-UA-Compatible" content="IE=edge">
  <meta name="viewport" content="width=device-width, initial-scale=1">
  <title>sugarlump.love AR</title>
 
-<!-- Google tag (gtag.js) -->
 <script async src="https://www.googletagmanager.com/gtag/js?id=0-0000000000"></script>
 <script>
   window.dataLayer = window.dataLayer || [];
@@ -18,19 +17,14 @@
 </script>
  
  </head>
- <!-- Loads <model-viewer> for modern browsers: -->
  <script type="module" src="https://unpkg.com/@google/model-viewer/dist/model-viewer.js"></script>
   
  <script nomodule="" src="https://unpkg.com/@google/model-viewer/dist/model-viewer.min.js"></script>
  <script src="{{ "/assets/js/scale.fix.js" | relative_url }}"></script>
-  <!-- The following libraries and polyfills are recommended to maximize browser support -->  
-  <!-- REQUIRED: Web Components polyfill to support Edge and Firefox < 63 -->
   <script src="https://unpkg.com/@webcomponents/webcomponentsjs/webcomponents-loader.js"></script>
 
-  <!-- OPTIONAL: Intersection Observer polyfill for better performance in Safari and IE11 -->
   <script src="https://unpkg.com/intersection-observer/intersection-observer.js"></script>
 
-  <!-- OPTIONAL: Resize Observer polyfill improves resize behavior in non-Chrome browsers -->
   <script src="https://unpkg.com/resize-observer-polyfill/dist/ResizeObserver.js"></script>
  
  <script>
@@ -39,22 +33,22 @@
         var sound = document.querySelector(audioSelector);
         var playRequest = document.querySelector("#overlay");
 
-   sound.addEventListener("timeupdate", () => {
+    sound.addEventListener("timeupdate", () => {
           modelViewer.currentTime = sound.currentTime;
           console.log("modelViewer time: " + modelViewer.currentTime);
         });
 
-   sound.addEventListener("pause", () => {
+    sound.addEventListener("pause", () => {
           modelViewer.pause();
         });
 
-   sound.addEventListener("play", () => {
+    sound.addEventListener("play", () => {
           modelViewer.play();
 
-   playRequest.classList.add("hide");
+    playRequest.classList.add("hide");
         });
 
-   document.addEventListener("visibilitychange", () => {
+    document.addEventListener("visibilitychange", () => {
           if (document.visibilityState !== "visible") {
             sound.pause();
           }
@@ -70,26 +64,26 @@ var promise = sound.play();
               // Show a "Play" button so that user can start playback.
               console.log("Autoplay has not worked");
 
-   // show the modal dialogue to play this
-   playRequest.classList.remove("hide");
+    // show the modal dialogue to play this
+    playRequest.classList.remove("hide");
             });
         }
 
-   }  
+    }   
       function playNow() {
         var playRequest = document.querySelector("#overlay");
         playRequest.classList.add("hide");
 
-   var sound = document.querySelector("#sound");
+    var sound = document.querySelector("#sound");
         sound.play();
       }
 
-   function jumpTo(time) {
+    function jumpTo(time) {
         var sound = document.querySelector("#sound");
         sound.currentTime = time;
       }
 
-   </script>
+    </script>
 
 <script>
 /**
@@ -108,10 +102,7 @@ var getOutboundLink = function(url) {
 }
 </script>
 
-<!--<h1>The column-count Property</h1> -->
-<!--<p>The column-count property defines the number of columns an element is divided into:</p> -->
 <style> 
- 
 .container {
  column-count: 1;
  column-width: 500px;
@@ -125,7 +116,7 @@ var getOutboundLink = function(url) {
   margin: 0 0 1em 0;
 }
 
- .card1 {
+  .card1 {
   break-inside: avoid;
   background-color: #ffff99;
   border: 2px solid rgb(255, 255, 153);
@@ -134,7 +125,7 @@ var getOutboundLink = function(url) {
 } 
 
   .stack-top{
-   z-index: 9;
+    z-index: 9;
 }
 .marginauto {
     display: block;
@@ -148,26 +139,24 @@ var getOutboundLink = function(url) {
  display:block;
 }
 
- .center {
+  .center {
   display: block;
   margin-left: auto;
   margin-right: auto;
   width: 50%;
-}  
+}   
 
 a {
  color: #59cbe8;
 }
 
 </style>
-<!-- This style script 162-166 controls progress bar color -->
- <style>
+<style>
     model-viewer {
       --progress-bar-color: #59cbe8; /* Change 'red' to your desired color */
     }
   </style>
  
- <!-- This style script 168-181 controls custom fonts located in fonts folder --> 
   <style>
   @font-face {
     font-family: 'Chalet LondonNineteenEighty Regular';
@@ -209,20 +198,14 @@ a {
 </style>
  
 <body bgcolor= #ffff99>
-  
+ 
 <body>
 
- <!-- Google Tag Manager (noscript) -->
-<noscript><iframe src="https://www.googletagmanager.com/ns.html?id=GTM-0000000"
+  <noscript><iframe src="https://www.googletagmanager.com/ns.html?id=GTM-0000000"
 height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
-<!-- End Google Tag Manager (noscript) -->
- 
 <div class="container">
     <div class="card">
      <img src="images/erin_video_scenes-32.png" alt="Logo" style="width: 350px; height: auto; display: block; margin: auto;">
-     <!--<img class="marginauto" src="images/erin_video_scenes-32.png" alt="Logo" style="width: 350px; height: auto"> -->
-     <!--<h1 style="text-align: center;" markdown="1"><b style="color:#000099;"><p style="font-family:DaisyByhapppyal-Regular"> KINDNESS PROJECT</p></h1></b> --> 
-     <!--<h2 style="text-align: center;" markdown="1"><b style="color:#ff69b4;"><p style="font-family:Chalet LondonNineteenEighty Regular"> "a little kindness is never really little"</p></h2></b> -->
      </div>
 
  <div class="card" style="position: relative; width: 100%; text-align: center;">
@@ -248,14 +231,14 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
     <div style="position: absolute; top: 5px; left: 0; width: 100%; height: 350px;
         display: flex; justify-content: center; align-items: center; z-index: 2;">
         <video id="video-overlay"
-                style="width: 350px; height: 350px; object-fit: cover; margin: 0; display: none;">
-                <source src="Video/Sugarlump Intro v3.mp4" type="video/mp4">
+                style="width: 350px; height: 350px; object-fit: cover; margin: 0;"
+                poster="images/Video Poster_2.png"  playsinline muted> <source src="Video/Sugarlump Intro v3.mp4" type="video/mp4">
         </video>
 
         <button id="play-pause-button" style="
                 position: absolute; z-index: 3; top: 50%; left: 50%; transform: translate(-50%, -50%);
                 background-color: rgba(255, 255, 255, 0.8); border: none; border-radius: 50%;
-                padding: 10px 15px; font-size: 24px; font-weight: bold; cursor: pointer; display: none;">
+                padding: 10px 15px; font-size: 24px; font-weight: bold; cursor: pointer;">
                 ▶
         </button>
     </div>
@@ -282,6 +265,12 @@ document.addEventListener("DOMContentLoaded", function () {
     const arButton = document.getElementById('ar-button');
     const modelViewer = document.getElementById('reveal');
 
+    // Initially, the video element (with its poster) is visible.
+    // The play button should also be visible by default.
+    playPauseButton.style.display = 'block';
+    playPauseButton.innerHTML = "▶";
+    video.muted = true; // Start muted, and let user click to unmute/play
+
     // Function to toggle video play/pause
     function toggleVideo() {
         if (video.paused || video.ended) {
@@ -297,21 +286,6 @@ document.addEventListener("DOMContentLoaded", function () {
             modelViewer.play(); // Play model-viewer animation when video pauses
         }
     }
-
-    // Event listener for when the video has enough data to play the first frame
-    video.addEventListener('loadeddata', function() {
-        // Make the video visible
-        video.style.display = 'block';
-
-        // If the video is already playing (due to autoplay/muted/playsinline), hide the button
-        if (!video.paused && !video.ended) {
-            playPauseButton.style.display = "none";
-        } else {
-            // If autoplay was blocked or hasn't started, ensure play button is visible
-            playPauseButton.style.display = "block";
-            playPauseButton.innerHTML = "▶";
-        }
-    });
 
     // Ensure clicking the video itself also toggles play/pause
     video.addEventListener('click', toggleVideo);
@@ -358,7 +332,7 @@ document.addEventListener("DOMContentLoaded", function () {
             // User exited AR. Re-display video and button.
             video.style.display = 'block';
             if (video.paused) {
-                 playPauseButton.style.display = 'block';
+                playPauseButton.style.display = 'block';
             }
         } else if (event.detail.status === 'ar' || event.detail.status === 'scene-viewer') {
             // User entered AR. Hide video and play button.
@@ -367,51 +341,43 @@ document.addEventListener("DOMContentLoaded", function () {
         }
     });
 
-    // Initial check for video state in case it autoplays very quickly before loadeddata
-    // This ensures the button state is correct on very fast initial loads.
-    // This is redundant if loadeddata fires reliably and quickly, but acts as a fallback.
-    if (video.readyState >= 2) { // HTMLMediaElement.HAVE_CURRENT_DATA
-        video.style.display = 'block';
-        if (!video.paused && !video.ended) {
-            playPauseButton.style.display = 'none';
-        } else {
-            playPauseButton.style.display = 'block';
-            playPauseButton.innerHTML = "▶";
-        }
-    } else {
-        // If video isn't even ready for first frame yet, ensure it's hidden and play button is shown by default
-        video.style.display = 'none'; // Ensure it's hidden initially, loadeddata will reveal
-        playPauseButton.style.display = 'block'; // Show play button as it awaits video
-        playPauseButton.innerHTML = "▶";
-    }
+    // The 'loadeddata' listener from the original code is no longer strictly needed
+    // for initial poster display if the poster attribute is set on the video tag
+    // and the video is not display:none initially.
+    // However, if you have other logic that specifically relies on the video's
+    // metadata and first frame being loaded, you can keep it.
+    // video.addEventListener('loadeddata', function() {
+    //     // Any additional logic that needs to run after the poster is loaded.
+    // });
+
 });
 </script>
 
   <div class="card"> 
-     <h1 style="text-align: center;" markdown="1"><p style="font-family:Chalet LondonNineteenEighty Regular; font-weight: bold; color: #000099;"> The joy of sharing kindness with friends + neighbors = sugarlump.love</p></h1></b>
-     <img class="marginauto" src="images/erin_video_scenes-34.png" alt="Logo" style="width: 300px; height: auto">
-     <h2 style="text-align: center;" markdown="1"><p style="font-family:Chalet LondonNineteenEighty Regular; font-weight: bold; color: #ff69b4;"><b>about:</b><a href="https://sugarlump.love/about" target="_blank" rel="noopener noreferrer"><b style="color:#59cbe8;"> creativity + kindness</a></b></h2></p>
-     <h2 style="text-align: center;" markdown="1"><p style="font-family:Chalet LondonNineteenEighty Regular; font-weight: bold; color: #ff69b4;"><b>rewards:</b><a href="https://sugarlump.love/" target="_blank" rel="noopener noreferrer"><b style="color:#59cbe8;"><b> the kindness project</b></b></h2></a></p></a></h2>
-     <h2 style="text-align: center;" markdown="1"><p style="font-family:Chalet LondonNineteenEighty Regular; font-weight: bold; color: #ff69b4;"><b>join:</b><a href="https://sugarlump.love/the-club" target="_blank" rel="noopener noreferrer"><b style="color:#59cbe8;"> sugarlump kindness club</a></b></b></p></h2>
-     <h2 style="text-align: center;" markdown="1"><p style="font-family:Chalet LondonNineteenEighty Regular; font-weight: bold; color: #ff69b4;"><b>shop:</b><a href="https://sugarlump.love/shop" target="_blank" rel="noopener noreferrer"><b style="color:#59cbe8;"> creative kindness kits</a></b></b></p></h2> 
-     <h2 style="text-align: center;" markdown="1"><p style="font-family:Chalet LondonNineteenEighty Regular; font-weight: bold; color: #ff69b4;"><b>brag tags:</b><a href="https://www.schoollife.com/bragtags-intro" target="_blank" rel="noopener noreferrer"><b style="color:#59cbe8;"> accomplishment, recognition, confidence</a></b></b></p></h2>  
-     <h2 style="text-align: center;" markdown="1"><p style="font-family:Chalet LondonNineteenEighty Regular; font-weight: bold; color: #ff69b4;"><b>sponsors:</b><a href="https://sugarlump.love/contact" target="_blank" rel="noopener noreferrer"><b style="color:#59cbe8;"><b> get involved</b></b></h2></a></p></a></h2> 
-     <br>
-   <h1 style="text-align: center;" markdown="1"><p style="font-family:DaisyByhapppyal-Regular; font-weight: bold; color: #000099;"><em> THIS KINDNESS PROJECT SPONSORED BY</em></p></h1></b>
-   <img class="marginauto" src="images/erin_video_scenes-37.png" alt="Logo" style="width: 300px; height: auto">
+      <h1 style="text-align: center;" markdown="1"><p style="font-family:Chalet LondonNineteenEighty Regular; font-weight: bold; color: #000099;"> The joy of sharing kindness with friends + neighbors = sugarlump.love</p></h1></b>
+      <img class="marginauto" src="images/erin_video_scenes-34.png" alt="Logo" style="width: 300px; height: auto">
+      <h2 style="text-align: center;" markdown="1"><p style="font-family:Chalet LondonNineteenEighty Regular; font-weight: bold; color: #ff69b4;"><b>about:</b><a href="https://sugarlump.love/about" target="_blank" rel="noopener noreferrer"><b style="color:#59cbe8;"> creativity + kindness</a></b></h2></p>
+      <h2 style="text-align: center;" markdown="1"><p style="font-family:Chalet LondonNineteenEighty Regular; font-weight: bold; color: #ff69b4;"><b>rewards:</b><a href="https://sugarlump.love/" target="_blank" rel="noopener noreferrer"><b style="color:#59cbe8;"><b> the kindness project</b></b></h2></a></p></a></h2>
+      <h2 style="text-align: center;" markdown="1"><p style="font-family:Chalet LondonNineteenEighty Regular; font-weight: bold; color: #ff69b4;"><b>join:</b><a href="https://sugarlump.love/the-club" target="_blank" rel="noopener noreferrer"><b style="color:#59cbe8;"> sugarlump kindness club</a></b></b></p></h2>
+      <h2 style="text-align: center;" markdown="1"><p style="font-family:Chalet LondonNineteenEighty Regular; font-weight: bold; color: #ff69b4;"><b>shop:</b><a href="https://sugarlump.love/shop" target="_blank" rel="noopener noreferrer"><b style="color:#59cbe8;"> creative kindness kits</a></b></b></p></h2> 
+      <h2 style="text-align: center;" markdown="1"><p style="font-family:Chalet LondonNineteenEighty Regular; font-weight: bold; color: #ff69b4;"><b>brag tags:</b><a href="https://www.schoollife.com/bragtags-intro" target="_blank" rel="noopener noreferrer"><b style="color:#59cbe8;"> accomplishment, recognition, confidence</a></b></b></p></h2>  
+      <h2 style="text-align: center;" markdown="1"><p style="font-family:Chalet LondonNineteenEighty Regular; font-weight: bold; color: #ff69b4;"><b>sponsors:</b><a href="https://sugarlump.love/contact" target="_blank" rel="noopener noreferrer"><b style="color:#59cbe8;"><b> get involved</b></b></h2></a></p></a></h2> 
+      <br>
+    <h1 style="text-align: center;" markdown="1"><p style="font-family:DaisyByhapppyal-Regular; font-weight: bold; color: #000099;"><em> THIS KINDNESS PROJECT SPONSORED BY</em></p></h1></b>
+    <img class="marginauto" src="images/erin_video_scenes-37.png" alt="Logo" style="width: 300px; height: auto">
   </div>
-   
-   <div class="centerImage">
+    
+    <div class="centerImage">
   <button onclick="window.open('https://www.tercekrealestate.com/', '_blank')" type="button" id="SponsorButton" style="z-index: 9; background-color: #ffffff; border-radius: 8px; border: 2px solid #59cbe8; height: 35px; width: auto; color: #000099; font-family: 'Chalet LondonNineteenEighty Regular', sans-serif; font-size: 20px;">
     <strong>&nbsp; visit &nbsp;</strong>
   </button>
   </div>
 
-   <div class="card">
+    <div class="card">
     <h2 style="text-align: center;" markdown="1"><p style="font-family:Chalet LondonNineteenEighty Regular; font-weight: bold; color: #000099;">Experience 4D Augmented Reality On Your Phone</p></h2>
     <img alt="AR Instructions" src="images/erin_video_scenes-41.png" img class="marginauto" style="max-width: 100%; max-height: 350px">
     <h3 style="text-align: center;" markdown="1"><p style="font-family:Chalet LondonNineteenEighty Regular; font-weight: bold; color: #000099;"><em> If AR button does not appear on mobile device, use another browser.</em></p></h3></b>
-   </div>
+    </div>
   
     <div class="card">
     <h4 style="text-align: center;" markdown="1"><a href="https://avertek.net/" target="_blank" rel="noopener noreferrer"><p style="font-family:Chalet LondonNineteenEighty Regular; color:##59cbe8;"> Contact AVERtek to learn more about AR marketing.</p></a></h4></b>
