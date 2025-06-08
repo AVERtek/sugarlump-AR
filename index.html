@@ -108,6 +108,8 @@ var getOutboundLink = function(url) {
 }
 </script>
 
+<!--<h1>The column-count Property</h1> -->
+<!--<p>The column-count property defines the number of columns an element is divided into:</p> -->
 <style> 
  
 .container {
@@ -215,9 +217,20 @@ a {
 height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
 <!-- End Google Tag Manager (noscript) -->
  
-<!--<h1>The column-count Property</h1> -->
-<!--<p>The column-count property defines the number of columns an element is divided into:</p> -->
+<!-- Poster Overlay -->
+<div id="poster-overlay" style="
+    position: absolute; top: 0; left: 0; width: 100vw; height: 100vh;
+    display: flex; justify-content: center; align-items: center;
+    background-image: url('images/Video_Poster_1.jpg');
+    background-size: cover; background-position: center;
+    z-index: 3;">
+</div>
 
+<script>
+    document.getElementById("video-overlay").addEventListener("play", function() {
+        document.getElementById("poster-overlay").style.display = "none";
+    });
+</script>
 <div class="container">
     <div class="card">
      <img src="images/erin_video_scenes-32.png" alt="Logo" style="width: 350px; height: auto; display: block; margin: auto;">
