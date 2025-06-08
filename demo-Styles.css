@@ -112,5 +112,9 @@ video {
     object-fit: contain; /* Keeps aspect ratio without cutting off */
 }
 
+/* Default <model-viewer> AR button hidden */
+model-viewer::part(ar-button) {
+    display: none !important;
+}
 
 
