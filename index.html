@@ -217,20 +217,41 @@ a {
 height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
 <!-- End Google Tag Manager (noscript) -->
  
-<!-- Poster Overlay -->
-<div id="poster-overlay" style="
-    position: absolute; top: 0; left: 0; width: 100vw; height: 100vh;
-    display: flex; justify-content: center; align-items: center;
-    background-image: url('images/Video_Poster_1.jpg');
-    background-size: cover; background-position: center;
-    z-index: 3;">
-</div>
+<!-- Poster Overlay (Above Model-Viewer, but below Play Button) -->
+    <div id="poster-overlay" style="
+        position: absolute; top: 0; left: 0; width: 100vw; height: 100vh;
+        display: flex; justify-content: center; align-items: center;
+        background-image: url('images/Video_Poster_1.jpg');
+        background-size: cover; background-position: center;
+        z-index: 2;">
+    </div>
 
-<script>
-    document.getElementById("video-overlay").addEventListener("play", function() {
-        document.getElementById("poster-overlay").style.display = "none";
-    });
-</script>
+    <!-- Play Button (Above Poster Overlay) -->
+    <button id="play-pause-button" style="
+        position: absolute; z-index: 3; top: 50%; left: 50%;
+        transform: translate(-50%, -50%);
+        background-color: rgba(255, 255, 255, 0.8);
+        border: none; border-radius: 50%;
+        padding: 10px 15px; font-size: 24px; font-weight: bold;
+        cursor: pointer;">
+        ▶
+    </button>
+
+    <!-- Model Viewer -->
+    <model-viewer ...></model-viewer>
+
+    <!-- Video -->
+    <video id="video-overlay" ...></video>
+
+    <!-- JavaScript (Placed at the end of body) -->
+    <script>
+        document.getElementById("play-pause-button").addEventListener("click", function() {
+            document.getElementById("video-overlay").play();
+            document.getElementById("poster-overlay").style.display = "none";
+            document.getElementById("play-pause-button").style.display = "none";
+        });
+    </script>
+
 <div class="container">
     <div class="card">
      <img src="images/erin_video_scenes-32.png" alt="Logo" style="width: 350px; height: auto; display: block; margin: auto;">
