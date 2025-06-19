@@ -5,7 +5,7 @@
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1">
-    <title>sugarlump.love AR</title>
+    <title>sugarlump TEST</title>
 
     <script async src="https://www.googletagmanager.com/gtag/js?id=0-0000000000"></script>
     <script>
@@ -611,6 +611,7 @@
                     const noteTextLine1 = `Download Date: ${currentDateString}`;
                     const noteTextLine2 = `Valid until: ${futureDateString}`;
 
+                    const sponsorText = "Tercek Real Estate"; // New line for "Sponsor"
                     const newTopLineText = "Sweet Neighbor of Mine";
 
                     const padTwoDigits = (num) => String(num).padStart(2, '0');
@@ -645,31 +646,45 @@
                     const helveticaFont = await pdfDoc.embedFont(StandardFonts.Helvetica);
                     const helveticaBoldFont = await pdfDoc.embedFont(StandardFonts.HelveticaBold);
 
-                    const baseLineY = height - 170;
+                    const baseLineY = height - 185;
 
-                    const newTopLineFontSize = 18;
+                    // New: Sponsor Text positioning
+                    const sponsorFontSize = 16; // Adjust as needed
+                    const sponsorX = 80; // Align with other text
+                    const sponsorY = baseLineY + 20; // Position above newTopLineText
+
+                    const newTopLineFontSize = 16;
                     const newTopLineX = 80;
                     const newTopLineY = baseLineY;
 
-                    const certificateNoFontSize = 14;
+                    const certificateNoFontSize = 12;
                     const certificateNoX = 80;
                     const certificateNoY = newTopLineY - newTopLineFontSize - 5;
 
-                    const downloadDateFontSize = 14;
+                    const downloadDateFontSize = 12;
                     const downloadDateX = 80;
                     const downloadDateY = certificateNoY - certificateNoFontSize - 5;
 
-                    const validUntilFontSize = 16;
+                    const validUntilFontSize = 14;
                     const validUntilX = 80;
-                    const validUntilY = downloadDateY - downloadDateFontSize - 10;
+                    const validUntilY = downloadDateY - downloadDateFontSize - 5;
 
-                    // 1. Draw "Sweet Neighbor of Mine"
+                    // NEW: Draw "Sponsor"
+                    firstPage.drawText(sponsorText, {
+                        x: sponsorX,
+                        y: sponsorY,
+                        font: helveticaBoldFont, // You can choose a different font/style if desired
+                        size: sponsorFontSize,
+                        color: rgb(8/255, 119/255, 144/255), // Example color, adjust as needed
+                    });
+
+                    // 1. Draw "Kindness Project"
                     firstPage.drawText(newTopLineText, {
                         x: newTopLineX,
                         y: newTopLineY,
                         font: helveticaBoldFont,
                         size: newTopLineFontSize,
-                        color: rgb(1.0, 0.4, 0.7),
+                        color: rgb(235/255, 114/255, 154/255),
                     });
 
                     // 2. Draw "Certificate No."
@@ -678,7 +693,7 @@
                         y: certificateNoY,
                         font: helveticaFont,
                         size: certificateNoFontSize,
-                        color: rgb(0.1, 0.1, 0.5),
+                        color: rgb(8/255, 119/255, 144/255),
                     });
 
                     // 3. Draw "Download Date"
@@ -687,7 +702,7 @@
                         y: downloadDateY,
                         font: helveticaFont,
                         size: downloadDateFontSize,
-                        color: rgb(0.1, 0.1, 0.5),
+                        color: rgb(8/255, 119/255, 144/255),
                     });
 
                     // 4. Draw "Valid until"
@@ -712,7 +727,6 @@
                     alert("Failed to generate certificate. Please check the console for details.");
                 }
             }
-
             viewPrintCertificateButton.addEventListener('click', generateStampedCertificate);
             // --- END PDF-LIB INTEGRATION ---
         });
