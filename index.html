@@ -473,24 +473,23 @@
             const modelViewer = document.getElementById('reveal');
             const viewPrintCertificateButton = document.getElementById('viewPrintCertificateButton');
 
+            // Initial state for video and button
             playPauseButton.style.display = 'block';
             playPauseButton.innerHTML = "▶";
-            video.muted = true;
+            video.muted = true; // Ensure muted on load for autoplay policies
 
             function toggleVideo() {
                 if (video.paused || video.ended) {
                     video.play();
-                    video.muted = false;
+                    video.muted = false; // Unmute when user plays
                     playPauseButton.innerHTML = "❚❚";
                     playPauseButton.style.display = "none";
                     modelViewer.pause();
-                    // Removed all explicit video.requestFullscreen() calls
                 } else {
                     video.pause();
                     playPauseButton.innerHTML = "▶";
                     playPauseButton.style.display = "block";
                     modelViewer.play();
-                    // Removed all explicit document.exitFullscreen() calls
                 }
             }
 
@@ -561,17 +560,24 @@
 
             // --- START PDF-LIB INTEGRATION (Save As functionality implemented) ---
             async function generateStampedCertificate() {
+                // Check if PDFLib is loaded and available
+                if (typeof PDFLib === 'undefined' || typeof PDFLib.PDFDocument === 'undefined') {
+                    console.error("PDFLib is not loaded. Cannot generate certificate.");
+                    alert("Certificate generation is not ready. Please try again or refresh the page.");
+                    return;
+                }
+
                 const {
                     PDFDocument,
                     rgb,
                     StandardFonts
                 } = PDFLib;
 
-                const pdfPath = 'sugarlump_app_certificate.pdf';
+                const pdfPath = 'certificates/sugarlump_app_certificate.pdf'; // Verify this path is correct
                 try {
                     const existingPdfBytes = await fetch(pdfPath).then(res => {
                         if (!res.ok) {
-                            throw new Error(`HTTP error! status: ${res.status} - Could not fetch PDF from ${pdfPath}`);
+                            throw new Error(`HTTP error! status: ${res.status} - Could not fetch PDF from ${pdfPath}. Please check the file path and server.`);
                         }
                         return res.arrayBuffer();
                     });
@@ -656,7 +662,7 @@
                         y: sponsorY,
                         font: helveticaBoldFont, // You can choose a different font/style if desired
                         size: sponsorFontSize,
-                        color: rgb(8/255, 119/255, 144/255), // Example color, adjust as needed
+                        color: rgb(8 / 255, 119 / 255, 144 / 255), // Example color, adjust as needed
                     });
 
                     // 1. Draw "Kindness Project"
@@ -665,7 +671,7 @@
                         y: newTopLineY,
                         font: helveticaBoldFont,
                         size: newTopLineFontSize,
-                        color: rgb(235/255, 114/255, 154/255),
+                        color: rgb(235 / 255, 114 / 255, 154 / 255),
                     });
 
                     // 2. Draw "Certificate No."
@@ -674,7 +680,7 @@
                         y: certificateNoY,
                         font: helveticaFont,
                         size: certificateNoFontSize,
-                        color: rgb(8/255, 119/255, 144/255),
+                        color: rgb(8 / 255, 119 / 255, 144 / 255),
                     });
 
                     // 3. Draw "Download Date"
@@ -683,7 +689,7 @@
                         y: downloadDateY,
                         font: helveticaFont,
                         size: downloadDateFontSize,
-                        color: rgb(8/255, 119/255, 144/255),
+                        color: rgb(8 / 255, 119 / 255, 144 / 255),
                     });
 
                     // 4. Draw "Valid until"
@@ -705,7 +711,7 @@
 
                 } catch (error) {
                     console.error("Error generating stamped certificate:", error);
-                    alert("Failed to generate certificate. Please check the console for details.");
+                    alert("Failed to generate certificate. Please check the console for details. Make sure 'certificates/SL CERTIFICATE 3.pdf' exists at the correct path.");
                 }
             }
             viewPrintCertificateButton.addEventListener('click', generateStampedCertificate);
