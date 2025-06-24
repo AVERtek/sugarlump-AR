@@ -227,7 +227,7 @@
             /* Adjust AR button for mobile, using its actual class: main-button */
             .main-button {
                 /* Changed width from 90% to a max-width and then min-width
-                    This ensures they don't get too big, but also don't break below a certain size. */
+                                    This ensures they don't get too big, but also don't break below a certain size. */
                 width: 100%;
                 /* Take up full available width within parent */
                 max-width: 250px;
@@ -319,25 +319,25 @@
         </div>
 
         <div class="card">
-            <!--<h1>
-                <p style="font-family:Chalet LondonNineteenEighty Regular; font-weight: bold; color: #000099;"> The joy
-                    of sharing kindness with friends + neighbors = sugarlump.love</p>
-            </h1> -->
             <img class="marginauto" src="images/erin_video_scenes-34.png" alt="Logo" style="width: 300px; height: auto">
             <h2>
-                <p style="font-family:Chalet LondonNineteenEighty Regular; font-weight: bold; color: #ff69b4;"><b>about:</b><a href="https://sugarlump.love/about" target="_blank" rel="noopener noreferrer"><b
+                <p style="font-family:Chalet LondonNineteenEighty Regular; font-weight: bold; color: #ff69b4;"><b>about:</b><a
+                        href="https://sugarlump.love/about" target="_blank" rel="noopener noreferrer"><b
                                 style="color:#59cbe8;"> creativity + kindness</b></a></p>
             </h2>
             <h2>
-                <p style="font-family:Chalet LondonNineteenEighty Regular; font-weight: bold; color: #ff69b4;"><b>rewards:</b><a href="https://sugarlump.love/" target="_blank" rel="noopener noreferrer"><b
+                <p style="font-family:Chalet LondonNineteenEighty Regular; font-weight: bold; color: #ff69b4;"><b>rewards:</b><a
+                        href="https://sugarlump.love/" target="_blank" rel="noopener noreferrer"><b
                                 style="color:#59cbe8;"><b> the kindness project</b></b></a></p>
             </h2>
             <h2>
-                <p style="font-family:Chalet LondonNineteenEighty Regular; font-weight: bold; color: #ff69b4;"><b>join:</b><a href="https://sugarlump.love/the-club" target="_blank" rel="noopener noreferrer"><b
+                <p style="font-family:Chalet LondonNineteenEighty Regular; font-weight: bold; color: #ff69b4;"><b>join:</b><a
+                        href="https://sugarlump.love/the-club" target="_blank" rel="noopener noreferrer"><b
                                 style="color:#59cbe8;"> sugarlump kindness club</b></a></p>
             </h2>
             <h2>
-                <p style="font-family:Chalet LondonNineteenEighty Regular; font-weight: bold; color: #ff69b4;"><b>shop:</b><a href="https://sugarlump.love/shop" target="_blank" rel="noopener noreferrer"><b
+                <p style="font-family:Chalet LondonNineteenEighty Regular; font-weight: bold; color: #ff69b4;"><b>shop:</b><a
+                        href="https://sugarlump.love/shop" target="_blank" rel="noopener noreferrer"><b
                                 style="color:#59cbe8;"> creative kindness kits</b></a></p>
             </h2>
             <h2>
@@ -347,7 +347,8 @@
                                 confidence</b></a></p>
             </h2>
             <h2>
-                <p style="font-family:Chalet LondonNineteenEighty Regular; font-weight: bold; color: #ff69b4;"><b>sponsors:</b><a href="https://sugarlump.love/contact" target="_blank" rel="noopener noreferrer"><b
+                <p style="font-family:Chalet LondonNineteenEighty Regular; font-weight: bold; color: #ff69b4;"><b>sponsors:</b><a
+                        href="https://sugarlump.love/contact" target="_blank" rel="noopener noreferrer"><b
                                 style="color:#59cbe8;"><b> get involved</b></b></a></p>
             </h2>
             <br>
@@ -536,27 +537,46 @@
 
             arButton.addEventListener('click', launchAR);
 
+            // Function to detect if the user is on a mobile device
+            function isMobileDevice() {
+                return /Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(navigator.userAgent);
+            }
 
-            // --- Fallback function for traditional download (defined within DOMContentLoaded) ---
-            // This function now *always* opens in a new tab.
+            // --- Modified openPdfInNewTab function ---
             function openPdfInNewTab(blob, certificateNumber) {
                 const url = URL.createObjectURL(blob);
-                const newWindow = window.open(url, '_blank'); // Open in new tab
-                if (newWindow) {
-                    newWindow.focus(); // Bring the new tab to focus
-                } else {
-                    alert('Please allow pop-ups for this website to view the certificate.');
-                    // Fallback to direct download if new tab blocked
+                const fileName = `SweetNeighborCertificate_${certificateNumber}.pdf`;
+
+                if (isMobileDevice()) {
+                    // For mobile devices, trigger a direct download
                     const a = document.createElement('a');
                     a.href = url;
-                    a.download = `SweetNeighborCertificate_${certificateNumber}.pdf`;
+                    a.download = fileName; // This attribute prompts the "Save As" dialog
                     document.body.appendChild(a);
                     a.click();
                     document.body.removeChild(a);
+                    // Revoke the object URL after the download is initiated
+                    setTimeout(() => URL.revokeObjectURL(url), 100); 
+                } else {
+                    // For desktop devices, open in a new tab
+                    const newWindow = window.open(url, '_blank');
+                    if (newWindow) {
+                        newWindow.focus();
+                    } else {
+                        alert('Please allow pop-ups for this website to view the certificate.');
+                        // Fallback to direct download if new tab is blocked on desktop
+                        const a = document.createElement('a');
+                        a.href = url;
+                        a.download = fileName;
+                        document.body.appendChild(a);
+                        a.click();
+                        document.body.removeChild(a);
+                    }
+                    // Revoke URL after a short delay to allow the new tab to load
+                    setTimeout(() => URL.revokeObjectURL(url), 1000);
                 }
-                // Revoke URL after a short delay to allow the new tab to load the blob
-                setTimeout(() => URL.revokeObjectURL(url), 1000);
             }
+
 
             // --- START PDF-LIB INTEGRATION (Save As functionality implemented) ---
             async function generateStampedCertificate() {
@@ -711,7 +731,7 @@
 
                 } catch (error) {
                     console.error("Error generating stamped certificate:", error);
-                    alert("Failed to generate certificate. Please check the console for details. Make sure 'certificates/SL CERTIFICATE 3.pdf' exists at the correct path.");
+                    alert("Failed to generate certificate. Please check the console for details. Make sure 'certificates/sugarlump_app_certificate.pdf' exists at the correct path.");
                 }
             }
             viewPrintCertificateButton.addEventListener('click', generateStampedCertificate);
